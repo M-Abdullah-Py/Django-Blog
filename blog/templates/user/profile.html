@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        
+        <!-- Profile Section (Left Side) -->
+        <div class="col-md-8">
+            <div class="card profile-card mb-4">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">My Profile</h2>
+                    <div class="row">
+                        {% if user.image %}
+                        <div class="col-md-4 text-center">
+                            <img src="{{ user.image.url }}" class="rounded-circle profile-img mb-3" alt="Profile Image" style="width: 100px; height: 100px;">
+                        </div>
+                        {% endif %}
+                        <div class="col-md-8">
+                            <h3>{{ user.name }}</h3>
+                            <p><strong>Email:</strong> {{ user.email }}</p>
+                            <p><strong>Bio:</strong> {{ user.bio }}</p>
+                            <a href="{% url 'edit_profile' %}" class="btn btn-primary mt-3">Edit Profile</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+           
+        </div>
+
+        <!-- Sidebar Section (Right Side) -->
+<div class="col-md-4">
+    <div class="card sidebar-card">
+        <div class="card-body">
+            <h3 class="sidebar-title mb-3">Manage Your Posts</h3>
+            <div class="list-group">
+                <a href="{% url 'create_post' %}" class="list-group-item list-group-item-action">
+                    <i class="fas fa-plus-circle me-2"></i> Create New Post
+                </a>
+                <a href="{% url 'user_posts' %}" class="list-group-item list-group-item-action">
+                    <i class="fas fa-th-list me-2"></i> View My Posts
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+        
+    </div>
+</div>
+{% endblock %}

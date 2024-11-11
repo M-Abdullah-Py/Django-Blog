@@ -1,0 +1,271 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TC Blogs</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel=" stylesheet" href="{% static 'css/slick.css' %}">
+    <link rel="stylesheet"
+     href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.5.5/css/simple-line-icons.min.css">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <!-- Add the link to your custom profile CSS -->
+    {% block extra_css %}{% endblock %}
+    
+
+    <!-- Bootstrap CSS -->
+     
+
+
+
+</head>
+
+<body>
+    <div class="site-wrapper">
+        <div class="main-overlay"></div>
+        <header class="header-default">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-xl">
+                    <!-- logo  -->
+                    <a href="{% url 'home' %}" class="navbar-brand">
+                        <img src="{% static 'images/py-logo.png' %}" alt="">
+                    </a>
+
+                    <div class="collapse navbar-collapse">
+                        <ul class="navbar-nav mr-auto">
+                            <!-- Home and Category Dropdown -->
+                            <li class="nav-item dropdown {% if request.path == '/' %}active{% endif %}">
+                                <a href="{% url 'home' %}" class="nav-link dropdown-toggle">Home</a>
+                                <ul class="dropdown-menu">
+                                    {% for category in categories %}
+                                    <li>
+                                        <a href="{% url 'category_posts' category.slug %}" class="dropdown-item">{{ category.name }}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        
+                            <!-- Latest and Trending Links -->
+                            <li class="nav-item {% if request.path == '/blog/' %}active{% endif %}">
+                                <a href="{% url 'blog_posts' %}" class="nav-link">Latest</a>
+                            </li>
+                            <li class="nav-item {% if '#trending-section' in request.path %}active{% endif %}">
+                                <a href="{% url 'home' %}#trending-section" class="nav-link">Trending</a>
+                            </li>
+                        
+                            <!-- Check if the user is logged in -->
+                            {% if user.is_authenticated %}
+                                <!-- Display logged-in user's name and logout option -->
+                                <li class="nav-item">
+                                    <a href="{% url 'profile' %}" class="nav-link">Welcome, {{ user }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                                </li>
+                            {% else %}
+                                <!-- Show login and register links when user is logged out -->
+                                <li class="nav-item {% if request.path == '/login/' %}active{% endif %}">
+                                    <a href="{% url 'login' %}" class="nav-link">Login</a>
+                                </li>
+                                <li class="nav-item {% if request.path == '/register/' %}active{% endif %}">
+                                    <a href="{% url 'register' %}" class="nav-link">Register</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                        
+                        
+                    </div>
+                    
+                    <!-- right side of header  -->
+                    <div class="header-right">
+                        <ul class="social-icons list-unstyled list-inline mb-0">
+                            <li class="list-inline-item">
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.linkedin.com/in/muhammad-abdullah-mazhar/"><i class="fab fa-linkedin-in"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#"><i class="fab fa-github"></i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#"><i class="fab fa-youtube"></i></a>
+                            </li>
+                        </ul>
+
+                        <!-- buttons  -->
+                        <div class="header-buttons">
+                            <button class="search icon-button">
+                                <i class="icon-magnifier"></i>
+                            </button>
+                            <button class="burger-menu icon-button">
+                                <span class="burger-icon"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+
+        </header>
+
+
+
+        {% block content %}
+        {% endblock%}
+
+
+
+
+
+
+
+
+
+
+<!-- canvas menu -->
+<div class="canvas-menu d-flex align-items-end flex-column">
+    <button class="btn-close" aria-label="Close" type="button"></button>
+
+    <div class="logo">
+        <img src="{% static 'images/logo.svg' %}" alt="Logo">
+    </div>
+    <nav>
+        <ul class="vertical-menu">
+            <li class="active">
+                <a href="{% url 'home' %}">Home</a>
+                <ul class="submenu">
+                    {% for category in categories %}
+                    <li><a href="{% url 'category_posts' category.slug %}">{{ category.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <li><a href="{% url 'blog_posts' %}">Latest</a></li>
+            <li><a href="{% url 'home' %}#trending-section">Trending</a></li>
+
+            <!-- Check if the user is logged in -->
+            {% if user.is_authenticated %}
+                <!-- Show user name and logout option -->
+                <li><a href="{% url 'profile' %}"> Welcome, {{ user }}</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <!-- Show login and register links when user is logged out -->
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+            {% endif %}
+
+        </ul>
+    </nav>
+
+    <ul class="social-icons list-unstyled list-inline mb-0 mt-auto w-100">
+        <li class="list-inline-item">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+        </li>
+        <li class="list-inline-item">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </li>
+        <li class="list-inline-item">
+            <a href="https://www.linkedin.com/in/muhammad-abdullah-mazhar/"><i class="fab fa-linkedin-in"></i></a>
+        </li>
+        <li class="list-inline-item">
+            <a href="#"><i class="fab fa-github"></i></a>
+        </li>
+        <li class="list-inline-item">
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </li>
+    </ul>
+</div>
+
+
+    <!-- search pop up  -->
+    <div class="search-popup">
+        <button class="btn-close" aria-label="Close" type="button"></button>
+
+        <div class="search-content">
+            <div class="text-center">
+                <h3 class="mb-4 mt-0">Press ESC to close</h3>
+            </div>
+
+            <form action="{% url 'search_blogposts' %}" class="d-flex search-form" method="get">
+                <input type="search" name="q" placeholder="Search and press enter ..." aria-label="Search"
+                    class="form-control me-2" value="{{ query }}">
+                <button class="btn btn-default btn-lg" type="submit">
+                    <i class="icon-magnifier"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <footer>
+        <div class="container-xl">
+            <div class="footer-inner">
+                <div class="row d-flex align-items-center gy-4">
+                    <div class="col-md-4">
+                        <span class="copyright">&copy; 2025 Abdullah </span>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <ul class="social-icons list-unstyled list-inline mb-0">
+                            <li class="list-inline-item">
+                                <a href="">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.linkedin.com/in/muhammad-abdullah-mazhar/">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="#" id="return-to-top" class="float-md-end">
+                            <i class="icon-arrow-up"></i>
+                            Back to Top
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- javascripts  -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/slick.min.js' %}"></script>
+    <script src="{% static 'js/jquery.sticky-sidebar.min.js' %}"></script>
+    <script src="{% static 'main.js' %}"></script>
+    
+</body>
+
+</html>

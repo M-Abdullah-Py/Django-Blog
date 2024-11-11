@@ -1,0 +1,639 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+        <!-- section starts  -->
+        <section id="hero">
+            <div class="container-xl">
+                <div class="row gy-4">
+                    <div class="col-lg-8">
+                        {% if featured %}
+                        <div class="post featured-post-lg">
+                            <div class="details clearfix">
+                                <a href="{% url 'category_posts' featured.category.slug %}" class="category-badge">{{featured.category.name}}</a>
+                                <h2 class="post-title">
+                                    <a href="{% url 'post' featured.slug %}">{{featured.title}}</a>
+                                </h2>
+                                <ul class="meta list-inline mb-0">
+                                    <li class="list-inline-item">
+                                        <a href="#">{{featured.author}}</a>
+                                    </li>
+                                    <li class="list-inline-item">{{featured.created_at}}</li>
+                                </ul>
+                            </div>
+                            <a href="{% url 'post' featured.slug %}">
+                                <div class="thumb rounded">
+                                    <div class="inner data-bg-image" data-bg-image="{{featured.image.url}}">
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% else %}
+                        <p>No featured post available.</p>
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="col-lg-4">
+                        <div class="post-tabs rounded bordered">
+                            <ul class="nav nav-tabs nav-pills nav-fill" id="postTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button aria-controls="popular" aria-selected="true" class="nav-link active"
+                                        data-bs-target="#popular" data-bs-toggle="tab" id="popular-tab" role="tab"
+                                        type="button">
+                                        Popular
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button aria-controls="recent" aria-selected="false" class="nav-link"
+                                        data-bs-target="#recent" data-bs-toggle="tab" id="recent-tab" role="tab"
+                                        type="button">
+                                        Recent
+                                    </button>
+                                </li>
+
+                            </ul>
+
+                            <!-- content  -->
+                            <div class="tab-content" id="postsTabContent">
+                                <!-- loader -->
+                                <div class="lds-dual-ring"></div>
+                                <!-- pop post  -->
+
+                                <div class="tab-pane fade show active" id="popular" aria-labelledby="popular-tab"
+                                    role="tabpanel">
+                                    <!-- post  -->
+                                     {% for popular in populars_first %}
+                                    <div class="post post-list-sm circle">
+                                        <div class="thumb circle">
+                                            <a href="{% url 'post' popular.slug %}">
+                                                <div class="inner">
+                                                    <img src="{{popular.image.url}}" alt="">
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details clearfix">
+                                            <h6 class="post-title my-0">
+                                                <a href="{% url 'post' popular.slug %}">{{popular.title}}</a>
+                                            </h6>
+                                            <ul class="meta list-inline mt-1 mb-0">
+                                                <li class="list-inline-item">{{popular.created_at}}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                
+                                </div>
+
+                                <!-- recent  -->
+                                <div class="tab-pane fade" id="recent" aria-labelledby="recent-tab" role="tabpanel">
+                                    <!-- post  -->
+                                     {% for recent in recents|slice:":4" %}
+                                    <div class="post post-list-sm circle">
+                                        <div class="thumb circle">
+                                            <a href="{% url 'post' recent.slug %}">
+                                                <div class="inner">
+                                                    <img src="{{recent.image.url}}" alt="">
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details clearfix">
+                                            <h6 class="post-title my-0">
+                                                <a href="{% url 'post' recent.slug %}">{{recent.title}}</a>
+                                            </h6>
+                                            <ul class="meta list-inline mt-1 mb-0">
+                                                <li class="list-inline-item"> {{recent.created_at}} </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </section>
+
+        <!-- main content  -->
+
+        <section class="main-content">
+            <div class="container-xl">
+                <div class="row gy-4">
+
+                    <!-- left part 1st section  -->
+                    <div class="col-lg-8">
+                        <div class="section-header">
+                            <h3 class="section-title">Editor's Pick</h3>
+                        </div>
+
+                        <div class="padding-30 rounded bordered">
+                            <div class="row gy-5">
+                                <!-- Featured Editor Pick Post -->
+                                <div class="col-sm-6">
+                                    {% if featured_editor %}
+                                        <div class="post">
+                                            <div class="thumb rounded">
+                                                <a href="{% url 'category_posts' featured.category.slug %}" class="category-badge position-absolute">{{ featured_editor.Category.name }}</a>
+                                                <span class="post-format">
+                                                    <i class="icon-picture"></i>
+                                                </span>
+                                                <a href="{% url 'post' featured_editor.slug %}">
+                                                    <div class="inner">
+                                                        <img src="{{ featured_editor.image.url }}" alt="">
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <ul class="meta list-inline mt-4 mb-0">
+                                                <li class="list-inline-item">
+                                                    <a href="#">
+                                                        <img class="author" src="{{featured_editor.author.image.url}}" alt="">
+                                                        {{ featured_editor.author }}
+                                                    </a>
+                                                </li>
+                                                <li class="list-inline-item">{{ featured_editor.created_at }}</li>
+                                            </ul>
+                                            <h5 class="post-title mb-3 mt-3">
+                                                <a href="{% url 'post' featured_editor.slug %}">{{ featured_editor.title }}</a>
+                                            </h5>
+                                            <p class="excerpt mb-0">
+                                                {{ featured_editor.description }}
+                                            </p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                        
+                                <!-- List of Additional Editor Pick Posts -->
+                                <div class="col-sm-6">
+                                    {% for editor in editors %}
+                                        <div class="post post-list-sm square">
+                                            <div class="thumb rounded">
+                                                <a href="{% url 'post' editor.slug %}">
+                                                    <div class="inner">
+                                                        <img src="{{ editor.image.url }}" alt="">
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="details clearfix">
+                                                <h6 class="post-title my-0">
+                                                    <a href="#">
+                                                        {{ editor.title }}
+                                                    </a>
+                                                </h6>
+                                                <ul class="meta list-inline mt-1 mb-0">
+                                                    <li class="list-inline-item">{{ editor.created_at }}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                        <div class="spacer" data-height="50"></div>
+
+                        <div class="section-header", id = "trending-section">
+                            <h3 class="section-title">Trending</h3>
+                        </div>
+
+                        <div class="padding-30 rounded bordered">
+                            <div class="row gy-5">
+                                {% if trending_first %}
+
+                                <div class="col-sm-6">
+                                    {% with first_item=trending_first|first %}
+                                
+                                    <div class="post">
+                                        <div class="thumb rounded">
+                                            <a href="{% url 'post' first_item.Category.slug %}" class="category-badge position-absolute">{{first_item.Category.name}}</a>
+                                            <span class="post-format">
+                                                <i class="icon-picture"></i>
+                                            </span>
+                                            <a href="{% url 'post' first_item.slug %}">
+                                                <div class="inner">
+                                                    <img src="{{first_item.image.url}}" alt="">
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <ul class="meta list-inline mt-4 mb-0">
+                                            <li class="list-inline-item">
+                                                <a href="#">
+                                                    <img src="{{first_item.author.image.url}}" class="author" alt="">
+                                                    {{first_item.author}}
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item">{{first_item.created_at}}</li>
+                                        </ul>
+                                        <h5 class="post-title mb-3 mt-3">
+                                            <a href="{% url 'post' first_item.slug %}">{{first_item.title}}</a>
+                                        </h5>
+                                        <p class="excerpt mb-0">
+                                            {{first_item.description}}
+                                        </p>
+                                    </div>
+                                    {% endwith %}
+                                    
+                                    {% for trending in trending_first|slice:"1:" %}
+                                    <div class="post post-list-sm square before-seperator">
+                                        
+                                        <div class="thumb rounded">
+                                            <a href="{% url 'post' trending.slug %}">
+                                                <div class="inner">
+                                                    <img src="{{trending.image.url}}" alt="">
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details clearfix">
+                                            <h6 class="post-title my-0">
+                                                <a href="{% url 'post' trending.slug %}">{{trending.title}}</a>
+                                            </h6>
+                                            <ul class="meta list-inline mt-1 mb-0">
+                                                <li class="list-inline-item">{{trending.created_at}}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                <p>No trending post available.</p>
+                                {% endif %}
+
+                                {% if trendings %}
+                                <div class="col-sm-6">
+                                    <!-- First Item Displayed Separately -->
+                                    {% with first_item=trendings|first %}
+                                    
+                                    <div class="post">
+                                        <div class="thumb rounded">
+                                            <a href="{% url 'category_posts' first_item.Category.slug %}" class="category-badge position-absolute">{{first_item.Category.name}}</a>
+                                            <span class="post-format">
+                                                <i class="icon-picture"></i>
+                                            </span>
+                                            <a href="{% url 'post' first_item.slug %}">
+                                                <div class="inner">
+                                                    <img src="{{ first_item.image.url }}" alt="">
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <ul class="meta list-inline mt-4 mb-0">
+                                            <li class="list-inline-item">
+                                                <a href="#">
+                                                    <img src="{{first_item.author.image.url}}" class="author" alt="">
+                                                    {{ first_item.author }}
+                                                </a>
+                                            </li>
+                                            <li class="list-inline-item">{{ first_item.created_at }}</li>
+                                        </ul>
+                                        <h5 class="post-title mb-3 mt-3">
+                                            <a href="{% url 'post' first_item.slug %}">{{ first_item.title }}</a>
+                                        </h5>
+                                        <p class="excerpt mb-0">
+                                            {{ first_item.description }}
+                                        </p>
+                                    </div>
+                                
+                                    {% endwith %}
+                                
+                                    <!-- Loop Through the Rest of the Items, Skipping the First One -->
+                                    {% for inspiration in trendings|slice:"1:" %}
+                                    <div class="post post-list-sm square before-seperator">
+                                        <div class="thumb rounded">
+                                            <a href="{% url 'post' inspiration.slug %}">
+                                                <div class="inner">
+                                                    <img src="{{ inspiration.image.url }}" alt="">
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details clearfix">
+                                            <h6 class="post-title my-0">
+                                                <a href="{% url 'post' inspiration.slug %}">{{ inspiration.title}}</a>
+                                            </h6>
+                                            <ul class="meta list-inline mt-1 mb-0">
+                                                <li class="list-inline-item">{{ inspiration.created_at }}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                <p>No featured post available.</p>
+                                {% endif %}
+
+                                
+                            </div>
+                        </div>
+                        <div class="spacer" data-height="50"></div>
+
+                       
+
+                        <div class="section-header">
+                            <h3 class="section-title">Inspiration</h3>
+                            <div class="slick-arrows-top">
+                                <buttton class="carousel-topNav-prev slick-custom-buttons" type="button"
+                                    data-role="none" aria-label="Previous">
+                                    <i class="icon-arrow-left"></i>
+                                </buttton>
+                                <buttton class="carousel-topNav-next slick-custom-buttons" type="button"
+                                    data-role="none" aria-label="Next">
+                                    <i class="icon-arrow-right"></i>
+                                </buttton>
+                            </div>
+                        </div>
+                        <div class="row post-carousel-twoCol post-carousel">
+                            {% for rest in rest_posts|slice:":2" %}
+
+                            <div class="post post-over-content col-md-6">
+                                <div class="details clearfix">
+                                    <a href="#" class="category-badge">{{rest.Category}}</a>
+                                    <h4 class="post-title">
+                                        <a href="{% url 'post' rest.slug %}">{{rest.title}}"</a>
+                                    </h4>
+                                    <ul class="meta list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="#">{{rest.author}}</a>
+                                        </li>
+                                        <li class="list-inline-item">{{rest.created_at}}</li>
+                                    </ul>
+                                </div>
+                                <a href="#">
+                                    <div class="thumb rounded">
+                                        <div class="inner">
+                                            <img src="{{rest.image.url}}" alt="">
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            {% endfor %}
+
+
+                            
+
+                        </div>
+
+
+                        <div class="spacer" data-height="50"></div>
+
+                        <div class="section-header">
+                            <h3 class="section-title">Latest Posts</h3>
+                        </div>
+
+                        <div class="padding-30 rounded bordered">
+                            <div class="row">
+                                {% if latest_posts %}
+
+                                <div class="col-md-12 col-sm-6">
+                                    <!-- post  -->
+                                     {% for latest in latest_posts %}
+                                    <div class="post post-list clearfix">
+                                        <div class="thumb rounded">
+                                            <span class="post-format-sm">
+                                                <i class="icon-picture"></i>
+                                            </span>
+                                            <a href="{% url 'post' latest.slug %}">
+                                                <div class="inner">
+                                                    <img src="{{latest.image.url}}" alt="">
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details">
+                                            <ul class="meta list-inline mb-3">
+                                                <li class="list-inline-item">
+                                                    <a href="">
+                                                        <img src="{{latest.author.image.url}}" class="author" alt="">
+                                                        {{latest.author}}
+                                                    </a>
+                                                </li>
+                                                
+                                                <li class="list-inline-item">{{latest.created_at}}</li>
+                                            </ul>
+                                            <h5 class="post-tile">
+                                                <a href="{% url 'post' latest.slug %}">
+                                                    {{latest.title}}
+                                                </a>
+                                            </h5>
+                                            <p class="excerpt mb-0">
+                                                {{latest.description}}
+                                            </p>
+                                            <div class="post-bottom clearfix d-flex align-items-center">
+                                                <div class="social-share me-auto">
+                                                    <button class="toggle-button icon-share"></button>
+                                                    <ul class="icons list-unstyled list-inline mb-0">
+                                                        <li class="list-inline-item">
+                                                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <a href="#"><i class="fab fa-twitter"></i></a>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <a href="#"><i class="fab fa-pinterest"></i></a>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <a href="#"><i class="fab fa-telegram-plane"></i></a>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <a href="#"><i class="far fa-envelope"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="more-button float-end">
+                                                    <a href="#"><span class="icon-options"></span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                <p>No featured post available.</p>
+                                {% endif %}
+
+                               
+                                
+
+                                <div class="text-center">
+                                    <a href="{% url 'blog_posts' %}" class="btn btn-simple">Load More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- left part over here  -->
+                    </div>
+                    <!-- right part starts from here  -->
+
+                    <div class="col-lg-4">
+                        <div class="sidebar">
+                            <div class="widget rounded">
+                                <div class="widget-about text-center">
+                                    <img src="static/images/py-logo.png" alt="" class="logo">
+                                    <p></p>
+                                    <p class="mb-4" style="text-align: justify;">Hey i am Abdullah! Python Developer with a focus on Django and Django REST Framework, building scalable APIs and optimizing database queries. Skilled in creating RESTful services, integrating third-party APIs, and writing clean, maintainable code.</p>
+                                    <ul class="social-icons list-unstyled list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="#"><i class="fab fa-twitter"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="#"><i class="fab fa-pinterest"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="#"><i class="fab fa-telegram-plane"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="#"><i class="far fa-envelope"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="widget rounded">
+                                <div class="widget-header text-center">
+                                    <h3 class="widget-title">Popular Posts</h3>
+                                </div>
+                                <div class="widget-content">
+                                    {% for popular in populars %}
+                                    <div class="post post-list-sm circle">
+                                        <div class="thumb circle">
+                                            <span class="number">{{forloop.counter}}</span>
+                                            <a href="{% url 'post' popular.slug %}">
+                                                <div class="inner">
+                                                    <img src="{{popular.image.url}}" alt="">
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="details clearfix">
+                                            <h6 class="post-title my-0">
+                                                <a href="{% url 'post' popular.slug %}">{{popular.title}}</a>
+                                            </h6>
+                                            <ul class="meta list-inline mt-1 mb-0">
+                                                <li class="list-inline-item">{{popular.created_at}}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                    
+                                </div>
+                            </div>
+
+                            <!-- widget categories -->
+					<div class="widget rounded">
+						<div class="widget-header text-center">
+							<h3 class="widget-title">Explore Topics</h3>
+							<img src="{% static 'images/wave.svg' %}" class="wave" alt="wave" />
+						</div>
+						<div class="widget-content">
+							<ul class="list">
+								{% for category in categories%}
+								<li><a href="{% url 'category_posts' category.slug %}">{{category.name}}</a><span>({{ category.post_count }})</span></li>
+								{% endfor %}
+							</ul>
+						</div>
+
+					</div>
+
+                            <div class="widget rounded">
+                                <div class="widget-header text-center">
+                                    <h3 class="widget-title">Newsletter</h3>
+                                </div>
+                                <div class="widget-content">
+                                    <span class="newsletter-headline text-center mb-3">Join 50,000 subscribers</span>
+                                    <form action="#">
+                                        <div class="mb-2">
+                                            <input type="email" class="form-control w-100 text-center"
+                                                placeholder="Email address...">
+                                        </div>
+                                        <button class="btn btn-default btn-full">Sign Up</button>
+
+                                    </form>
+                                    <span class="newsletter-privacy text-center mt-3">
+                                        By signing up, you agree to our <a href="#">Privacy policy</a>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="widget rounded">
+                                <div class="widget-header text-center">
+                                    <h3 class="widget-title">Rest Frame Work</h3>
+                                </div>
+                                <div class="widget-content">
+                                    <div class="post-carousel-widget">
+                                        {% for rest in rest_posts %}
+                                        <div class="post post-carousel">
+                                            <div class="thumb rounded">
+                                                <a href="{% url 'category_posts' rest.Category.slug %}" class="category-badge position-absolute">{{rest.Category.name}}</a>
+                                                <a href="{% url 'post' rest.slug %}">
+                                                    <div class="inner">
+                                                        <img src="{{rest.image.url}}" alt="">
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <h5 class="post-title mb-0 mt-4">
+                                                <a href="{% url 'post' rest.slug %}">{{rest.title}}</a>
+                                            </h5>
+                                            <ul class="meta list-inline mt-2 mb-0">
+                                                <li class="list-inline-item">
+                                                    <a href="#">{{rest.author}}</a>
+                                                </li>
+                                                <li class="list-inline-item">{{rest.created_at}}</li>
+                                            </ul>
+                                        </div>
+                                        {% endfor %}
+                                       
+                                    </div>
+                                    <div class="slick-arrows-bot">
+                                        <buttton class="carousel-botNav-prev slick-custom-buttons" type="button"
+                                            data-role="none" aria-label="Previous">
+                                            <i class="icon-arrow-left"></i>
+                                        </buttton>
+                                        <buttton class="carousel-botNav-next slick-custom-buttons" type="button"
+                                            data-role="none" aria-label="Next">
+                                            <i class="icon-arrow-right"></i>
+                                        </buttton>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="widget rounded">
+                                <div class="widget-header text-center">
+                                    <h3 class="widget-title">Tag Clouds</h3>
+                                </div>
+                                <div class="widget-content">
+                                    <a href="#" class="tag">Python</a>
+                                    <a href="#" class="tag">Django</a>
+                                    <a href="#" class="tag">Rest Framework</a>
+                                    <a href="#" class="tag">Flask</a>
+                                    <a href="#" class="tag">FastAPi</a>
+                                    <a href="#" class="tag">Rest APi</a>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+       
+
+
+
+
+
+    {% endblock%}

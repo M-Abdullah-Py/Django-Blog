@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        
+        <!-- Left Side: User Posts -->
+        <div class="col-lg-8 mb-4">
+            <div class="section-header mb-4">
+                <h3 class="section-title">My Posts</h3>
+            </div>
+
+            <div class="padding-30 rounded bordered">
+                <div class="row">
+                    <div class="col-md-12">
+                        {% for post in posts %}
+                            <div class="post post-list clearfix mb-4">
+                                <div class="thumb rounded">
+                                    <a href="{% url 'post' post.slug %}">
+                                        <div class="inner">
+                                            <!-- Display Post Image -->
+                                            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="details">
+                                    <ul class="meta list-inline mb-3">
+                                        <li class="list-inline-item">
+                                            <a href="{% url 'edit_post' post.slug%}">
+                                                <!-- Display Author Image (if available) -->
+                                                {% if post.author.image %}
+                                                    <img src="{{ post.author.image.url }}" class="author" alt="{{ post.author }}">
+                                                {% else %}
+                                                    <img src="default-author-image.png" class="author" alt="Author">
+                                                {% endif %}
+                                                {{ post.author }}
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">{{ post.created_at }}</li>
+                                    </ul>
+                                    <h5 class="post-title">
+                                        <a href="{% url 'edit_post' post.id %}">{{ post.title }}</a>
+                                    </h5>
+                                    <p class="excerpt mb-0">{{ post.description|truncatewords:20 }}</p>
+                                    <div class="post-bottom clearfix d-flex align-items-center">
+                                        <div class="button-group">
+                                            <a href="{% url 'edit_post' post.slug %}" class="btn btn-primary btn-sm">Edit</a>
+                                            <a href="{% url 'delete_post' post.slug %}" class="btn btn-danger btn-sm">Delete</a>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar (Right Side) -->
+        <div class="col-lg-4">
+            <div class="card sidebar-card">
+                <div class="card-body">
+                    <h3 class="sidebar-title mb-3">Manage Your Posts</h3>
+                    <div class="list-group">
+                        <a href="{% url 'create_post' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-plus-circle me-2"></i> Create New Post
+                        </a>
+                        {% if request.path != '/my-posts/' %}
+                        <a href="{% url 'user_posts' %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-th-list me-2"></i> View My Posts
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}
+    

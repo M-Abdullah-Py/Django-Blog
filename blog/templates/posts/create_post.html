@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card profile-card">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Create New Post</h2>
+
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Form Fields -->
+
+                        <div class="form-group mb-3">
+                            <label for="title">Post Title</label>
+                            {{ form.title }}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="description">Post Description</label>
+                            {{ form.description }}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="content">Post Content</label>
+                            {{ form.content }}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="image">Post Image</label>
+                            {{ form.image }}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="sections">Sections</label>
+                            {{ form.sections }}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="status">Post Status</label>
+                            {{ form.status }}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="Category">Category</label>
+                            {{ form.Category }}
+                        </div>
+
+                        <!-- Error Handling -->
+                        {% if form.errors %}
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary btn-block">Create Post</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock %}

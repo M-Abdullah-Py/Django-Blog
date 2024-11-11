@@ -1,0 +1,96 @@
+/* Profile Card */
+.profile-card {
+    border-radius: 15px !important;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Card Body */
+.profile-card .card-body {
+    padding: 30px !important;
+    background-color: #f8f9fa !important;
+    border-radius: 10px !important;
+}
+
+/* Heading Style */
+.profile-card h2 {
+    font-size: 28px !important;
+    font-weight: 700 !important;
+    color: #333 !important;
+}
+
+/* Form Paragraph Styling */
+.profile-card form p {
+    margin-bottom: 15px !important;
+}
+
+/* Form Inputs Styling */
+.profile-card form input, .profile-card form select, .profile-card form textarea {
+    border-radius: 8px !important;
+    border: 1px solid #ddd !important;
+    padding: 10px !important;
+    width: 100% !important;
+    font-size: 14px !important;
+}
+
+/* Focus Style for Inputs */
+.profile-card form input:focus, 
+.profile-card form select:focus, 
+.profile-card form textarea:focus {
+    border-color: #007bff !important;
+    outline: none !important;
+}
+
+/* Styling for Description Textarea */
+.profile-card form textarea#description {
+    height: 150px !important; /* Adequate height for description input */
+    resize: vertical !important; /* Allow user to resize the textarea vertically */
+    font-family: 'Arial', sans-serif !important;
+    font-size: 14px !important;
+    color: #333 !important;
+}
+
+/* Styling for Content Textarea - Max width */
+.profile-card form textarea#content {
+    height: 300px !important; /* Adequate height for content input */
+    resize: vertical !important; /* Allow user to resize the textarea vertically */
+    font-family: 'Arial', sans-serif !important;
+    font-size: 14px !important;
+    color: #333 !important;
+    width: 100% !important; /* Ensure full width */
+    max-width: 100% !important; /* Maximum width stretched */
+}
+
+/* Placeholder Styling */
+.profile-card form textarea::placeholder {
+    color: #aaa !important; /* Lighter color for placeholder text */
+    font-style: italic !important;
+}
+
+/* Error Message Styling */
+.profile-card .alert-danger {
+    background-color: #f8d7da !important;
+    border-color: #f5c6cb !important;
+    padding: 10px !important;
+    border-radius: 8px !important;
+}
+
+/* Submit Button */
+.btn-primary {
+    background-color: #007bff !important;
+    color: white !important;
+    border: none !important;
+    padding: 12px 30px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    border-radius: 30px !important;
+    transition: background-color 0.3s ease !important;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3 !important;
+}
+
+/* Button Block */
+.btn-block {
+    width: 100% !important;
+}
